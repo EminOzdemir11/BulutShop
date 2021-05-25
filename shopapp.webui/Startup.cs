@@ -9,6 +9,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using shopapp.business.Abstract;
+using shopapp.business.Concrete;
+using shopapp.data.Abstract;
+using shopapp.data.Concrete.EfCore;
 
 namespace shopapp.webui
 {
@@ -18,6 +22,11 @@ namespace shopapp.webui
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<ICategoryRepository,EfCoreCategoryRepository>();
+            services.AddScoped<IProductRepository,EfCoreProductRepository>();
+
+            services.AddScoped<ICategoryService,CategoryManager>();
+            services.AddScoped<IProductService,ProductManager>();
             services.AddControllersWithViews();
         }
 
@@ -35,6 +44,7 @@ namespace shopapp.webui
 
             if (env.IsDevelopment())
             {
+                SeedDatabase.Seed();
                 app.UseDeveloperExceptionPage();
             }
 
@@ -42,6 +52,61 @@ namespace shopapp.webui
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "adminproducts",
+                    pattern: "admin/products",
+                    defaults: new {controller="Admin",action="ProductList"}
+                );
+
+                endpoints.MapControllerRoute(
+                    name: "adminproductcreate",
+                    pattern: "admin/products/create",
+                    defaults: new {controller="Admin",action="ProductCreate"}
+                );
+
+                endpoints.MapControllerRoute(
+                    name: "adminproductedit",
+                    pattern: "admin/products/{id?}",
+                    defaults: new {controller="Admin",action="ProductEdit"}
+                );
+
+                endpoints.MapControllerRoute(
+                    name: "admincategories",
+                    pattern: "admin/categories",
+                    defaults: new {controller="Admin",action="CategoryList"}
+                );
+
+                endpoints.MapControllerRoute(
+                    name: "admincategoriescreate",
+                    pattern: "admin/categories/create",
+                    defaults: new {controller="Admin",action="CategoryCreate"}
+                );
+
+                endpoints.MapControllerRoute(
+                    name: "admincategoryedit",
+                    pattern: "admin/categories/{id?}",
+                    defaults: new {controller="Admin",action="CategoryEdit"}
+                );
+
+                //localhost/about
+                endpoints.MapControllerRoute(
+                    name: "search",
+                    pattern: "search",
+                    defaults: new {controller="Shop",action="search"}
+                );
+
+                endpoints.MapControllerRoute(
+                    name: "productdetails",
+                    pattern: "{url}",
+                    defaults: new {controller="Shop",action="details"}
+                );
+
+                endpoints.MapControllerRoute(
+                    name: "products",
+                    pattern: "products/{category?}",
+                    defaults: new {controller="Shop",action="list"}
+                );
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}"

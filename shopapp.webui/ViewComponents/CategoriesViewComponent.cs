@@ -1,15 +1,21 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using shopapp.webui.Data;
+using shopapp.business.Abstract;
 
 namespace shopapp.webui.ViewComponents
 {
     public class CategoriesViewComponent:ViewComponent
     {
+        private ICategoryService _categoryService;
+        public CategoriesViewComponent(ICategoryService categoryService)
+        {
+            this._categoryService = categoryService;
+        }
         public IViewComponentResult Invoke(){
-            if(RouteData.Values["action"].ToString() == "list")
-                ViewBag.SelectedCategory = RouteData?.Values["id"];
-            return View(CategoryRepository.Categories);
+            if(RouteData.Values["category"] != null)
+                ViewBag.SelectedCategory = RouteData?.Values["category"];
+            return View(_categoryService.GetAll());
+            
         }
     }
 }

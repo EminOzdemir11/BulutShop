@@ -1,21 +1,20 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using shopapp.entity;
+
 namespace shopapp.webui.Models
 {
-    public class Product
+    public class ProductModel
     {
         public int ProductId { get; set; }
-        [Required]
-        [StringLength(60,MinimumLength = 10, ErrorMessage = "ürün ismi 10-60 karakter arasında olmalıdır")]
+        [Display(Name="Name",Prompt="Enter product name")]
         public string Name { get; set; }
-        [Required(ErrorMessage = "Fiyat girmelisiniz")]
-        [Range(1,10000)]
+        public string Url { get; set; }
         public double? Price { get; set; }
         public string Description { get; set; }
-        [Required]
         public string ImageUrl { get; set; }
         public bool IsApproved { get; set; }
-        [Required]
-        public int? CategoryId { get; set; }
-        
+        public int IsHome { get; set; }
+        public List<Category> SelectedCategories { get; set; }
     }
 }
