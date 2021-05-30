@@ -106,6 +106,8 @@ namespace shopapp.data.Concrete.EfCore
                     product.Description = entity.Description;
                     product.Url = entity.Url;
                     product.ImageUrl = entity.ImageUrl;
+                    product.IsApproved = entity.IsApproved;
+                    product.IsHome = entity.IsHome;
 
                     product.ProductCategories = categoryIds.Select(catid=> new ProductCategory()
                     {
