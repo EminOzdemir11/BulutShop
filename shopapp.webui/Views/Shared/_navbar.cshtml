@@ -15,12 +15,23 @@
                 <li class="nav-item">
                     <a  class="nav-link">Orders</a>
                 </li>
-                <li class="nav-item">
+
+                if (User.IsInRole("admin"))
+                {
+                    <li class="nav-item">
                     <a href="/admin/products" class="nav-link">Admin Product</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/admin/categories" class="nav-link">Admin Categories</a>
-                </li>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/categories" class="nav-link">Admin Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/role/list" class="nav-link">Roles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/user/list" class="nav-link">Users</a>
+                    </li>
+                }
+                
             }
             
         </ul>

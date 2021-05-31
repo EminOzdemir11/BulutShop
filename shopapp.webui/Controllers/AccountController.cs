@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -150,13 +151,14 @@ namespace shopapp.webui.Controllers
             });
             return View();
         }
-
+        
         public IActionResult ForgotPassword()
         {
             return View();
         }
 
         [HttpPost]
+        
         public async Task<IActionResult> ForgotPassword(string Email)
         {
             if (string.IsNullOrEmpty(Email))
@@ -215,6 +217,11 @@ namespace shopapp.webui.Controllers
             }
 
             return View(model);
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
 
     }
