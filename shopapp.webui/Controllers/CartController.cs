@@ -40,9 +40,19 @@ namespace shopapp.webui.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddToCart()
+        public IActionResult AddToCart(int productId,int quantity)
         {
-            return View();
+            var userId = _userManager.GetUserId(User);
+            _cartService.AddToCart(userId,productId,quantity);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult DeleteFromCart(int productId)
+        {
+            var userId = _userManager.GetUserId(User);
+            _cartService.DeleteFromCart(userId,productId);
+            return RedirectToAction("Index");
         }
     }
 }

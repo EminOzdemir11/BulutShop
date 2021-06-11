@@ -43,7 +43,7 @@ namespace shopapp.data.Concrete.EfCore
             }
         }
 
-        public void Update(TEntity entity)
+        public virtual void Update(TEntity entity)
         {
             using(var context = new TContext())
             {
