@@ -73,10 +73,12 @@ namespace shopapp.webui
             services.AddScoped<ICategoryRepository,EfCoreCategoryRepository>();
             services.AddScoped<IProductRepository,EfCoreProductRepository>();
             services.AddScoped<ICartRepository,EfCoreCartRepository>();
+            services.AddScoped<IOrderRepository,EfCoreOrderRepository>();
 
             services.AddScoped<ICategoryService,CategoryManager>();
             services.AddScoped<IProductService,ProductManager>();
             services.AddScoped<ICartService,CartManager>();
+            services.AddScoped<IOrderService,OrderManager>();
 
             services.AddScoped<IEmailSender,SmtpEmailSender>(i=>
                 new SmtpEmailSender(
@@ -115,6 +117,18 @@ namespace shopapp.webui
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "orders",
+                    pattern: "orders",
+                    defaults: new {controller="Cart",action="GetOrders"}
+                );
+
+                endpoints.MapControllerRoute(
+                    name: "checkout",
+                    pattern: "checkout",
+                    defaults: new {controller="Cart",action="Checkout"}
+                );
+
                 endpoints.MapControllerRoute(
                     name: "cart",
                     pattern: "cart",
